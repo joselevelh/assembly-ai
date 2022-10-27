@@ -81,5 +81,5 @@ with chapter_sum:
     st.markdown("That's more like it!")
 with st_footer:
     st.header("You've reached the end!")
-    st.markdown("Thanks for trying out this dashboard! If you want to see the code for this project checkout the [github](https://github.com/joselevelh/assembly-ai)."
+    st.markdown("Thanks for trying out this dashboard!  \nIf you want to see the code for this project checkout the [github](https://github.com/joselevelh/assembly-ai).  \n"
                 "If you are interested to see other things I've made, check out my [website](https://joselevel.com/)")
