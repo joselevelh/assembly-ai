@@ -71,7 +71,7 @@ with chapter_sum:
     chapter_count = 0
     for chapter_info in get_chapters_response.get("chapters"):
         if chapter_count < max_chapters:
-            st.write(f"Summary of chapter {chapter_count+1}:"
+            st.write(f"Summary of chapter {chapter_count+1}:  \n"
                      f"\'{chapter_info.get('summary')}\'")
             output = model.predict(prompt=prefix + chapter_info.get('summary'))
             st.image(output[0])
