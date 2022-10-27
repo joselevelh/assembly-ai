@@ -79,6 +79,8 @@ with chapter_sum:
             print("Exceeded max chapter count")
         chapter_count += 1
     st.markdown("That's more like it!")
+    st.markdown("Here is the JSON returned from that last GET to AssemblyAI's API:  \n")
+    st.json(get_chapters_response)
 with st_footer:
     st.header("You've reached the end!")
     st.markdown("Thanks for trying out this dashboard!  \nIf you want to see the code for this project checkout the [github](https://github.com/joselevelh/assembly-ai).  \n"
