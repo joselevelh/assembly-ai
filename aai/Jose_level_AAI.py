@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import time
 import replicate
 import streamlit as st
 import requests
@@ -23,10 +24,14 @@ with st_header:
     st.markdown("This app uses [Assembly AI's](https://www.assemblyai.com/) speech-to-text API to process podcasts "
                 "(or any audio) and \nsummarizes them into usable prompts for the stable diffusion art generator")
 with audio_source:
-    st.header('Link Audio Source')
-    st.markdown("Paste a link to the audio you want the AI to paint!")
-    audio_link = st.text_input('URL to Audio Source',
-                               'https://www.listennotes.com/e/p/bd7844463bac4decaf480a63b121c94d/')
+    st.header('Upload Audio Source (200mb max)')
+    uploaded_file = st.file_uploader("Choose a file")
+    try:
+        audio_link = aai_helpers.file_to_link(uploaded_file)
+    except AttributeError as ae:
+        time.sleep(3)
+        st.experimental_rerun()
+
 with sum_gen:
     st.header("Summary Generation")
     post_response = aai_helpers.post_summary(audio_url=audio_link)
@@ -58,10 +63,13 @@ with chapter_sum:
     st.markdown("Now lets take this one step further and use Assembly AI to automatically create chapters and generate "
                 "summaries for each section. Then we will feed *those* into stable diffusion to make a series of "
                 "paintings")
-    st.markdown("I will give you another chance to use your own audio file here, if not we will use the default.")
-    new_audio_link = st.text_input('URL to Audio Source for series',
-                                   'https://www.listennotes.com/e/p/bd7844463bac4decaf480a63b121c94d/')
-    post_chapters_response = aai_helpers.post_chapters(audio_url=audio_link)
+    chapters_uploaded_file = st.file_uploader("Choose a file again")
+    try:
+        chapter_audio_link = aai_helpers.file_to_link(chapters_uploaded_file)
+    except AttributeError as ae:
+        time.sleep(3)
+        st.stop()
+    post_chapters_response = aai_helpers.post_chapters(audio_url=chapter_audio_link)
     print('processing:', post_chapters_response['id'])
     get_chapters_response = aai_helpers.get(transcript_id=post_chapters_response['id'],
                                             status=post_chapters_response['status'])
