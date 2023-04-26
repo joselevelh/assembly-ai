@@ -25,7 +25,7 @@ with st_header:
                 "(or any audio) and \nsummarizes them into usable prompts for the stable diffusion art generator")
 with audio_source:
     st.header('Upload Audio Source (200mb max)')
-    uploaded_file = st.file_uploader("Choose a file")
+    uploaded_file = st.file_uploader("Choose a file ( .wav, .mp3 )")
     try:
         audio_link = aai_helpers.file_to_link(uploaded_file)
     except AttributeError as ae:
@@ -34,7 +34,7 @@ with audio_source:
 
 with sum_gen:
     st.header("Summary Generation")
-    post_response = aai_helpers.post_summary(audio_url=audio_link)
+    post_response = aai_helpers.post_summary(audio_url=audio_link,)
     print('processing:', post_response['id'])
     get_response = aai_helpers.get(transcript_id=post_response['id'],
                                    status=post_response['status'])
@@ -61,7 +61,7 @@ with use_case:
 with chapter_sum:
     st.header("Using Chapter Summaries to Make an Art Series!")
     st.markdown("Now lets take this one step further and use Assembly AI to automatically create chapters and generate "
-                "summaries for each section. Then we will feed *those* into stable diffusion to make a series of "
+                "summaries for each section (if the audio is long enough). Then we will feed *those* into stable diffusion to make a series of "
                 "paintings")
     chapters_uploaded_file = st.file_uploader("Choose a file again")
     try:

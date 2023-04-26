@@ -11,6 +11,7 @@ headers = {'authorization': st.secrets["AAI_API_TOKEN"]}
 def post_summary(audio_url):
     payload = {"audio_url": audio_url,
                "summarization": True,
+               "summary_model": "informative",
                "summary_type": "paragraph"}
     response = requests.post(f'{base_endpoint}/transcript',
                              json=payload,
